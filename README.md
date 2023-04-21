@@ -1,6 +1,6 @@
 Topic 3. Implement FCM clustering algorithm and evaluate the cluster quality for different values of ‘C’. (Minimum and maximum values of C to be specified by user) 
 
-Team Members: Shantanu Welling (210010076), Harshit Agarwal (210020054), Arijit Saha (210050017)
+Team Members: Shantanu Welling (210010076), Harshit Agarwal (210020054), Arijit Saha (210050017) <br>
 ​
 Requirements: Python libraries- numpy, matplotlib, scikit-learn, scikit-image, scipy, PIL (Pillow), sys
 
