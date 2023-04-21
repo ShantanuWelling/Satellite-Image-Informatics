@@ -1,4 +1,3 @@
-
 import numpy as np
 import matplotlib.pyplot as plt
 from skimage import data, color, io
@@ -6,13 +5,16 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import MinMaxScaler
 from scipy.spatial.distance import cdist
-import cv2
+from sklearn.metrics import calinski_harabasz_score
+from sklearn.metrics import davies_bouldin_score
+from PIL import Image
+import sys
 
 
 def fcm(X, C, m, max_iter=100, error=1e-5, init=None):
     # Initialize membership matrix using K-means algorithm
     if init == 'kmeans':
-        kmeans = KMeans(n_clusters=C)
+        kmeans = KMeans(n_clusters=C, n_init="auto")
         kmeans.fit(X)
         centroids = kmeans.cluster_centers_
         D = cdist(X, centroids)
@@ -45,12 +47,21 @@ def fcm(X, C, m, max_iter=100, error=1e-5, init=None):
 
     return centroids, U
 
+if sys.version_info.major == 3:
+    python_command = "python3"
+else:
+    python_command = "python"
+
+if(len(sys.argv)!=4):
+    print(f"Error: Usage {python_command} {sys.argv[0]} input_image_name C_min C_max")
+    exit(1)
+
+imgName = sys.argv[1]
+C_min = int(sys.argv[2])
+C_max = int(sys.argv[3])
+
 # Load the sample image
-image1 = io.imread('img5.jpeg')
-image1=image1[:,:,:3]
-plt.imshow(image1[:,:,:3])
-plt.show()
-print(image1.shape)
+image1 = io.imread(imgName)
 image = color.rgb2gray(image1)
 
 # Normalize the image values
@@ -62,37 +73,62 @@ X = image.reshape(-1, 1)
 
 # Apply FCM clustering algorithm
 
-C_min = int(input("Enter "))
+Clusters = range(C_min, C_max+1)
+scores = []
+outputs = []
+Labels = []
 
-C = 4  # Number of clusters
-m = 2  # Fuzziness coefficient
-max_iter = 100  # Maximum number of iterations
-error = 1e-5  # Convergence threshold
-centroids, U = fcm(X, C, m, max_iter, error, init='kmeans')
+for k in Clusters:
 
-# Compute Silhouette score
-labels = np.argmax(U, axis=1)
-# score = silhouette_score(X, labels)
+    C = k  # Number of clusters
+    m = 2  # Fuzziness coefficient
+    max_iter = 100  # Maximum number of iterations
+    error = 1e-5  # Convergence threshold
+    centroids, U = fcm(X, C, m, max_iter, error, init='kmeans')
 
-# Reshape the labels and centroids back to the original image shape
-labels = labels.reshape(image.shape)
-centroids = centroids.reshape((C,))
+    # Compute Silhouette score
+    labels = np.argmax(U, axis=1)
+    Labels.append(labels)
+    # score = silhouette_score(X, labels)
+    # score = calinski_harabasz_score(X, labels)
+    score = davies_bouldin_score(X, labels)
+    scores.append(score)
+    # Reshape the labels and centroids back to the original image shape
+    labels = labels.reshape(image.shape)
+    centroids = centroids.reshape((C,))
 
-# Plot the original image and the segmented image
+    plt.imshow(labels, cmap='gray')
+    plt.title(f'Segmented image (C={C}, score={score:.4f})')
+    for c in centroids:
+        plt.axhline(c, color='white')
+    outfileName = 'output_C' + str(k) + ".jpeg"
+    outputs.append(outfileName)
+    plt.savefig(outfileName)
+    print(f"Iteration corresponding to C={k} done")
+
+MaxScore = max(scores)
+index_maxScore = scores.index(MaxScore)
+C_max = Clusters[index_maxScore]
+output = outputs[index_maxScore]
+label = Labels[index_maxScore]
+label = label.reshape(image.shape)
+# Read image
+img = Image.open(output)
+ 
+# Output Images
+img.show()
+
+print(f"Max Score corresponds to image with Number of clusters = {C_max} with score of {MaxScore}")
+#Plot the segmented image
 fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(10, 5))
 
 ax0.imshow(image1, cmap='gray')
 ax0.set_title('Original image')
 
-ax1.imshow(labels, cmap='gray')
-# ax1.set_title(f'Segmented image (C={C}, score={score:.4f})')
-for c in centroids:
-    ax1.axhline(c, color='white')
+ax1.imshow(label, cmap='gray')
+ax1.set_title(f"Segmented Image for C = {C_max} with Max Score")
 
-plt.show()
+plt.savefig("Original_BestSegmented.jpeg")
 
-
-
-
-
-
+img = Image.open("Original_BestSegmented.jpeg")
+img.show()
