@@ -18,11 +18,16 @@ It also saves the original image and the optimal clustered image (side by side i
 Also saves the corresponding graph for the input image which plots Number of clusters vs Davies Bouldin score values for the corresponding clustering in a file named "CQ_plot.png" in the same directory as that of the script.
 
 Folder named "results" in this zip file contains subfolders named "img{i}" where i corresponds to the input file named "img{i}.png"/"img{i}.jpeg" that was used. There are 15 images inside each subfolder.
-The 15 images in subfolder "img{i}" correspond to:
-13 clustering images obtained (output_C{i}.jpeg where i ranges from 3 to 15- both inclusive)
-1 Graph plot (CQ_plot.png)
-1 Original vs Best Clustered image (Original_BestCluster.jpeg)
-These 15 images of subfolder "img{i}" are obtained after executing the following command on terminal:
-"python3 fcm.py img{i}.png 3 15" or "python3 fcm.py img{i}.jpeg 3 15" depending on whether the img is in jpeg or png data format. Each input image has range of cluster values between 3 and 15 (both inclusive) as the user input parameters.
+The 15 images in subfolder "img{i}" correspond to: <br>
+13 clustering images obtained (output_C{i}.jpeg where i ranges from 3 to 15- both inclusive) <br>
+1 Graph plot (CQ_plot.png) <br>
+1 Original vs Best Clustered image (Original_BestCluster.jpeg) <br>
+
+These 15 images of subfolder "img{i}" are obtained after executing the following command on terminal:<br>
+"python3 fcm.py img{i}.png 3 15" or "python3 fcm.py img{i}.jpeg 3 15" depending on whether the img is in jpeg or png data format.
+
+Each input image has range of cluster values between 3 and 15 (both inclusive) as the user input parameters.
+
 There are 8 such subfolders inside "results" folder corresponding to the results obtained from the 8 input images in the zip file's main (parent) directory (img{i} where i ranges from 1 to 8-both inclusive) (having .png/.jpeg extension)
+
 There is a res.txt file in the main (parent) directory which has the Optimal Cluster number along with the corresponding Davies Bouldin Score for each of the 8 input images used. (i.e. the output printed on terminal for each input image).
