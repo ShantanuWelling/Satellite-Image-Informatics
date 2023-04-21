@@ -1,0 +1,8 @@
+img1. Optimal Number of clusters = 9 with Davies Bouldin score of 0.5006346403286387
+img2. Optimal Number of clusters = 15 with Davies Bouldin score of 0.5094447844771097
+img3. Optimal Number of clusters = 6 with Davies Bouldin score of 0.4941908381252782
+img4. Optimal Number of clusters = 14 with Davies Bouldin score of 0.5020541599434977
+img5. Optimal Number of clusters = 15 with Davies Bouldin score of 0.5118761994062804
+img6. Optimal Number of clusters = 15 with Davies Bouldin score of 0.5099333902607118
+img7. Optimal Number of clusters = 12 with Davies Bouldin score of 0.5017517638317854
+img8. Optimal Number of clusters = 15 with Davies Bouldin score of 0.49954825815125287
