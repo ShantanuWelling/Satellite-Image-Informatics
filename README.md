@@ -5,6 +5,7 @@ Team Members: Shantanu Welling (210010076), Harshit Agarwal (210020054), Arijit 
 Requirements: Python libraries- numpy, matplotlib, scikit-learn, scikit-image, scipy, PIL (Pillow), sys
 
 Run executable python script named fcm.py from Linux terminal as:
+
 python3 fcm.py {input_image_name} {min_clusters} {max_clusters}
 
 The input image name must be specified as a path relative to the directory in which the script fcm.py is placed in.
